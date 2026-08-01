@@ -33,7 +33,7 @@ spec:
             - "until nc -z redis 6379; do echo waiting for redis; sleep 2; done"
       containers:
         - name: employee-app
-          image: vijayvw/employee-app:57b7644b0f4a4b81cd8eddc5c22bb43443e94add
+          image: vijayvw/employee-app:aa526e2ef59b9e5c7c0b71b8220c07656f1ac5b0
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
