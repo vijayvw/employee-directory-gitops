@@ -2,6 +2,12 @@
 
 <p align="center">
 
+  <img src="screenshots/banner.png" alt="Employee Directory GitOps Platform Banner">
+
+</p>
+
+<p align="center">
+
 ![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-000000?logo=flask&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
@@ -531,36 +537,229 @@ This makes the project useful for demonstrating Kubernetes concepts while provid
 
 ---
 
-# 📸 Screenshots
+# 📸 Project Walkthrough
 
-Add screenshots demonstrating the project.
+The following screenshots demonstrate the complete GitOps workflow—from provisioning a Kubernetes cluster to automatically deploying new application versions using GitHub Actions, Docker Hub, Argo CD, and Kubernetes.
 
+---
+
+## 1️⃣ Kubernetes Cluster Ready
+
+Three-node Kubernetes cluster with all required platform components installed.
+
+- Kubernetes Control Plane
+- Worker Nodes
+- Argo CD
+- NGINX Ingress
+- Prometheus
+- Grafana
+- Local Path Storage
+
+<p align="center">
+<img src="screenshots/01-cluster-ready.png" width="100%">
+</p>
+
+---
+
+## 2️⃣ Deploy the Application with a Single Command
+
+The entire application is bootstrapped using only one command.
+
+```bash
+kubectl apply -f kubernetes/argocd/application.yaml
 ```
-screenshots/
 
-dashboard.png
+Argo CD immediately begins synchronizing all Kubernetes manifests stored in Git.
 
-github-actions.png
+<p align="center">
+<img src="screenshots/02-deploy.png" width="100%">
+</p>
 
-dockerhub.png
+---
 
-argocd.png
+## 3️⃣ Employee Directory (Version 1)
 
-pods.png
+Initial deployment of the Employee Directory application.
 
-deployment.png
-```
+Features demonstrated:
 
-Recommended screenshots:
-
+- Flask Application
+- MySQL Database
+- Redis Page Counter
+- Running Kubernetes Pod
 - Employee Dashboard
-- Add Employee Form
-- GitHub Actions Successful Workflow
-- Docker Hub Repository
-- Argo CD Application (Healthy & Synced)
-- Kubernetes Pods
-- Kubernetes Services
-- Kubernetes Ingress
+
+<p align="center">
+<img src="screenshots/03-dashboard-v1.png" width="100%">
+</p>
+
+---
+
+## 4️⃣ Argo CD GitOps Dashboard
+
+Argo CD continuously monitors the Git repository and ensures the Kubernetes cluster always matches the desired state.
+
+Application Status:
+
+- Healthy
+- Synced
+- Auto Sync Enabled
+
+<p align="center">
+<img src="screenshots/04-argocd.png" width="100%">
+</p>
+
+---
+
+## 5️⃣ Employee CRUD Operations
+
+Adding an employee stores the record inside MySQL while automatically invalidating the Redis cache.
+
+<p align="center">
+<img src="screenshots/05-add-employee.png" width="100%">
+</p>
+
+---
+
+## 6️⃣ Redis Cache Demonstration
+
+Subsequent requests are served directly from Redis, reducing database load and improving response time.
+
+<p align="center">
+<img src="screenshots/06-redis-cache.png" width="100%">
+</p>
+
+---
+
+## 7️⃣ GitHub Actions Continuous Integration
+
+Every push to the **main** branch automatically triggers the CI pipeline.
+
+The workflow performs:
+
+- Checkout Repository
+- Docker Buildx
+- Multi-Architecture Build
+- Push Docker Image
+- Update Kubernetes Manifest
+- Commit Updated Image Tag
+- Push Back to GitHub
+
+<p align="center">
+<img src="screenshots/07-github-actions.png" width="100%">
+</p>
+
+---
+
+## 8️⃣ Employee Directory (Version 2)
+
+After pushing updated source code, GitHub Actions automatically builds a new Docker image.
+
+Argo CD detects the updated Kubernetes manifest and deploys the latest version automatically.
+
+<p align="center">
+<img src="screenshots/08-dashboard-v2.png" width="100%">
+</p>
+
+---
+
+## 9️⃣ GitOps Automatic Synchronization
+
+Argo CD detects the new Git commit and performs an automatic rolling update across the Kubernetes cluster.
+
+Multiple ReplicaSets demonstrate deployment history while ensuring zero downtime.
+
+<p align="center">
+<img src="screenshots/09-argocd-rollout.png" width="100%">
+</p>
+
+---
+
+## 🔟 Kubernetes Rolling Deployment
+
+Kubernetes gradually replaces old Pods with newly created Pods running the latest Docker image.
+
+This ensures:
+
+- Zero Downtime
+- High Availability
+- Rolling Updates
+- Automatic Deployment
+
+<p align="center">
+<img src="screenshots/10-scale.png" width="100%">
+</p>
+
+---
+
+## 1️⃣1️⃣ Grafana Monitoring Dashboard
+
+Prometheus continuously collects metrics while Grafana visualizes Kubernetes resource utilization in real time.
+
+Monitoring includes:
+
+- CPU Usage
+- Memory Usage
+- Pod Utilization
+- Namespace Metrics
+- Resource Requests & Limits
+
+<p align="center">
+<img src="screenshots/11-grafana.png" width="100%">
+</p>
+
+---
+
+# 🚀 End-to-End GitOps Workflow
+
+```text
+Developer
+    │
+    │
+    ▼
+git push origin main
+    │
+    ▼
+GitHub Repository
+    │
+    ▼
+GitHub Actions
+    │
+    ├── Build Multi-Architecture Docker Image
+    ├── Push Image to Docker Hub
+    ├── Update Kubernetes Deployment Manifest
+    └── Commit Updated Manifest
+            │
+            ▼
+GitHub Repository
+            │
+            ▼
+Argo CD
+            │
+            ▼
+Detect Git Changes
+            │
+            ▼
+Synchronize Cluster
+            │
+            ▼
+Kubernetes Rolling Update
+            │
+            ▼
+Employee Directory Platform Updated Automatically
+```
+
+This project demonstrates a complete production-style GitOps workflow where Git remains the **Single Source of Truth**.
+
+No manual Docker builds.
+
+No manual image updates.
+
+No manual `kubectl apply`.
+
+No manual Kubernetes deployments.
+
+Every application update is fully automated through GitHub Actions, Docker Hub, Argo CD, and Kubernetes.
 
 ---
 
