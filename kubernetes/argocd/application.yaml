@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: employee-directory
+  namespace: argocd
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/vijayvw/employee-directory-gitops.git
+    targetRevision: main
+    path: kubernetes
+    directory:
+      recurse: true
+      exclude: argocd
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: emp-directory
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true
